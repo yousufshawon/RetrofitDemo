@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RetrofitDemo</string>
+    <string name="api_key_missing_message">Please obtain your API KEY first from themoviedb.org</string>
+</resources>
