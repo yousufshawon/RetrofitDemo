@@ -20,7 +20,8 @@ import com.shawon.yousuf.retrofitdemo.util.VerticalSpaceItemDecoration;
 
 import java.util.List;
 
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String API_KEY = BuildConfig.API_KEY;
 
     MoviesAdapter moviesAdapter;
-    @Bind(R.id.my_recycler_view)
+    @BindView(R.id.my_recycler_view)
     RecyclerView myRecyclerView;
 
     private String TAG = getClass().getSimpleName();
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         myRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(dpToPx(8)));
 
+
+
         getMovieList();
 
     }
@@ -65,11 +68,22 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 int statusCode = response.code();
                 Log.d(TAG, "status Code: " + statusCode);
-                List<Movie> movies = response.body().getResults();
-                Log.d(TAG, "Number of movies received: " + movies.size());
 
-                moviesAdapter = new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext());
-                myRecyclerView.setAdapter(moviesAdapter);
+                if (response.isSuccessful()) {
+
+
+                    List<Movie> movies = response.body().getResults();
+                    Log.d(TAG, "Number of movies received: " + movies.size());
+
+                    moviesAdapter = new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext());
+                    myRecyclerView.setAdapter(moviesAdapter);
+
+                }else {
+
+                    Toast.makeText(MainActivity.this, "Request failed", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
 
