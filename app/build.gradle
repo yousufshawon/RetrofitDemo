@@ -47,6 +47,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:' + rootProject.retrofitVersion
     compile 'com.squareup.retrofit2:converter-gson:' + rootProject.retrofitVersion
 
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
     // recycler view
     compile 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion
     //card View
@@ -55,7 +57,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:' + rootProject.butterKnifeVersion
     annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.butterKnifeVersion
     // Picasso
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.picasso:picasso:' + rootProject.picassoVersion
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:' + rootProject.okHttp3DownloderVersion
 
-   // compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+
 }

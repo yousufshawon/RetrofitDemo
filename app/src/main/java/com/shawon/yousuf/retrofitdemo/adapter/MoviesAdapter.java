@@ -71,6 +71,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         Picasso.with(context)
                 .load(url)
                 .into(holder.imageViewPic);
+
     }
 
     @Override

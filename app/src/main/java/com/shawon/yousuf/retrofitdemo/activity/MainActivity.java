@@ -1,5 +1,6 @@
 package com.shawon.yousuf.retrofitdemo.activity;
 
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.shawon.yousuf.retrofitdemo.BuildConfig;
@@ -34,8 +37,13 @@ public class MainActivity extends AppCompatActivity {
     private final static String API_KEY = BuildConfig.API_KEY;
 
     MoviesAdapter moviesAdapter;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     @BindView(R.id.my_recycler_view)
     RecyclerView myRecyclerView;
+
 
     private String TAG = getClass().getSimpleName();
 
@@ -54,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         myRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(dpToPx(8)));
 
 
-
         getMovieList();
 
     }
@@ -71,6 +78,18 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
 
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                    // raw().cacheResponse() and raw().networkResponse() can't be used in if else
+                    // cause there can be a scenario where both not null
+
+                    if (response.raw().cacheResponse()!= null) {
+                        Log.i(TAG, "Response form cache");
+                    }
+
+                    if (response.raw().networkResponse() != null) {
+                        Log.i(TAG, "Response from network");
+                    }
 
                     List<Movie> movies = response.body().getResults();
                     Log.d(TAG, "Number of movies received: " + movies.size());
@@ -79,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     myRecyclerView.setAdapter(moviesAdapter);
 
                 }else {
-
+                    progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(MainActivity.this, "Request failed", Toast.LENGTH_SHORT).show();
                 }
 
@@ -91,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
+                Toast.makeText(MainActivity.this, "Request failed", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }

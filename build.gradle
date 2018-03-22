@@ -35,4 +35,6 @@ ext {
     stethoVersion = "1.5.0"
     retrofitVersion = "2.4.0"
     butterKnifeVersion = "8.8.1"
+    picassoVersion = "2.5.2"
+    okHttp3DownloderVersion = "1.1.0"
 }
